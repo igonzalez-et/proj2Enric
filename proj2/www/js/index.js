@@ -30,12 +30,31 @@ function onDeviceReady() {
 
 let botonAdd = $("#afegir").click(function() {
     let pro = prompt("Escribe el nombre de la tarea que quieres añadir:");
-    $("ul").append("<li><a href='#page1'>"+pro+"</a><button class='buttonEliminar'>Eliminar</button></li>");
+    var elem = $("ul").append("<li><a href='#page1'>"+pro+"<button class='buttonEliminar'>Eliminar</button></a></li>");
+    $("a", elem).click(editar);
     $("ul").listview( "refresh" );
     $('ul li button').click(function(e){
         var tar = e.target || e.srcElement;
         $(tar.parentElement).remove();
+        return false;
     });
 });
 
+var targetElem = null;
 
+function editar(e){
+    var tar = e.target || e.srcElement;
+    targetElem = tar;
+}
+
+$("#guardaButton").click(guardar);
+function guardar(){
+    var editTaskList = $("#editName").val();
+    botoStr = "<button class='buttonEliminar'>Eliminar</button>";
+    $(targetElem).html(editTaskList+botoStr);
+    $('ul li button').click(function(e){
+        var tar = e.target || e.srcElement;
+        $(tar.parentElement).remove();
+        return false;
+    });
+}
