@@ -28,6 +28,11 @@ function onDeviceReady() {
     document.getElementById('deviceready').classList.add('ready');
 }
 
+let storageTasks = JSON.parse(localStorage.getItem("tasks"));
+for (let i = 0; i < storageTasks.length; i++) {
+    $("ul").append("<li><a href='#page1'>"+storageTasks[i]+"<button class='buttonEliminar'>Eliminar</button></a></li>");
+}
+
 let botonAdd = $("#afegir").click(function() {
     let pro = prompt("Escribe el nombre de la tarea que quieres añadir:");
     var elem = $("ul").append("<li><a href='#page1'>"+pro+"<button class='buttonEliminar'>Eliminar</button></a></li>");
@@ -38,6 +43,8 @@ let botonAdd = $("#afegir").click(function() {
         $(tar.parentElement).remove();
         return false;
     });
+    storageTasks.push(pro);
+    localStorage.setItem("tasks", JSON.stringify(storageTasks));
 });
 
 var targetElem = null;
@@ -58,3 +65,4 @@ function guardar(){
         return false;
     });
 }
+
